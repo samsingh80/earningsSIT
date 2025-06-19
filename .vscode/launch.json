@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run earning_upload",
+      "runtimeExecutable": "cds",
+      "killBehavior": "polite",
+      "request": "launch",
+      "args": [
+        "watch",
+        "--open"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "type": "pwa-node",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "PreLaunchTask for Run earning_upload",
+      "envFile": "${workspaceFolder}/env/.env1",
+      "env": {
+        "run.config": "{\"handlerId\":\"lcap_run_config_handler_id\",\"runnableId\":\"{\\\"projectPath\\\":\\\"/home/user/projects/earning_upload\\\",\\\"profileName\\\":\\\"\\\"}\"}"
+      }
+    }
+  ]
+}
