@@ -18,18 +18,19 @@ entity Quarters : CodeList {
   key code : String(2);
 }
 
-@UI.LineItem:[
-   { Value: bank_code,$Type: 'UI.DataField', Label: 'Bank' },
-   { Value: year_code,$Type: 'UI.DataField', Label: 'Year' },
-   { Value: quarter_code,$Type: 'UI.DataField', Label: 'Quarter' },
-   { Value: fileName,$Type: 'UI.DataField', Label: 'Download' },
-]
+// @UI.LineItem:[
+//    { Value: bank_code,$Type: 'UI.DataField', Label: 'Bank' },
+//    { Value: year_code,$Type: 'UI.DataField', Label: 'Year' },
+//    { Value: quarter_code,$Type: 'UI.DataField', Label: 'Quarter' },
+//    { Value: fileName,$Type: 'UI.DataField', Label: 'Download' },
+// ]
 
  
 entity EarningFiles : cuid, managed {
   bank      : Association to Banks;
   year      : Association to Years default '2025';
   quarter   : Association to Quarters;
+  
 
   @Core.MediaType  : mediaType
   content   : LargeString;
@@ -39,7 +40,20 @@ entity EarningFiles : cuid, managed {
   fileName  : String;
   @UI.Hidden
   url       : String;
-  status    : String ;
+  @Consumption.filterable : true
+  @Common.ValueList: {
+  CollectionPath: 'EarningsFileStatusValues',
+  Parameters: [
+    {
+      $Type: 'Common.ValueListParameterInOut',
+      LocalDataProperty: 'status',
+      ValueListProperty: 'code'
+    }
+  ]
+}
+@Common.ValueListWithFixedValues: true
+status    : String default 'Submitted';
+
 }
 
 @cds.server.body_parser.limit: '50mb' 
@@ -50,16 +64,17 @@ entity EarningFiles : cuid, managed {
     { Value: mediaType,$Type: 'UI.DataField', Label: 'Media Type' },
     { Value: status,$Type: 'UI.DataField', Label: 'Status' },
     {$Type: 'UI.DataFieldWithUrl',Label: 'Download',Value: fileName,Url: url},
-    { Value: createdBy,$Type: 'UI.DataField', Label: 'CreateBy' },
-    { Value: status,$Type: 'UI.DataField', Label: 'Status' },
-
   ]
 @UI.SelectionFields : [
         status,
         createdBy
-
     ]
   
+annotate EarningFiles with {
+  createdAt @UI.Hidden;
+//  createdBy @UI.Hidden;
+};
+
 entity EmbeddingFiles @(odata.stream)  :  managed {
 
   key ID: String;
@@ -102,11 +117,18 @@ type FileStatus : String enum {
 entity VisibilityConfig {
   key ID      : String;
       isAdmin : Boolean;
+      isMaker: Boolean;
+      isViewer: Boolean;
 }
 @UI.LineItem: [{Value: code, Label: 'Status'}]
 @UI.SelectionFields: [{$value: code}]
 entity FileStatusValues {
+  key code : String(20);
+};
 
+@UI.LineItem: [{Value: code, Label: 'Status'}]
+@UI.SelectionFields: [{$value: code}]
+entity EarningsFileStatusValues {
   key code : String(20);
 };
 

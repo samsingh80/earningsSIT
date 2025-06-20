@@ -79,6 +79,20 @@ annotate service.EarningFiles with {
     }
   }
   quarter @title: 'Quarter';
+
+status @title: 'Status'
+@Common.ValueListWithFixedValues: true
+@Common.ValueList: {
+  CollectionPath: 'EarningsFileStatusValues',
+  Parameters: [
+    {
+      $Type: 'Common.ValueListParameterInOut',
+      LocalDataProperty: 'status',
+      ValueListProperty: 'code'
+    }
+  ]
+};
+  
 };
 
 annotate service.EarningFiles with @(UI.SelectionFields: [
@@ -113,10 +127,17 @@ annotate service.EarningFiles with @UI.LineItem: [
     Value                : createdAt,
     ![@HTML5.CssDefaults]: {width: 'auto', },
   },
-      {$Type: 'UI.DataFieldWithUrl',
+    
+  {$Type: 'UI.DataFieldWithUrl',
      Label: 'Download',
      Value: fileName,
      Url: url},
+    {
+    $Type                : 'UI.DataField',
+    Value                : status,
+    ![@HTML5.CssDefaults]: {width: 'auto', },
+  }
+
 
      
 ];

@@ -1,7 +1,7 @@
 sap.ui.define([
     "sap/m/MessageToast",
-    "sap/ui/core/library"
-], function(MessageToast,coreLibrary) {
+    "sap/ui/core/library","sap/m/MessageBox"
+], function(MessageToast,coreLibrary,MessageBox) {
     'use strict';    
     let extensionAPI;
     async function _updateStatus(oContext, sStatus){
@@ -35,8 +35,27 @@ sap.ui.define([
                  
         },
 
-        onApprove:async function( oBindingContext, aSelectedContexts) {
+        onBeforeDelete: function(oContext) {
+          const status = oContext.getObject().status;
+    
+          if (status === "Approved") {
+            MessageBox.error("You cannot delete a Approved file.");
+            return Promise.reject("Deletion not allowed for Approved files");
+          }
+    
+          // Allow deletion
+          return Promise.resolve();
+        },
 
+        onApprove:async function( oBindingContext, aSelectedContexts) {
+          const status = aSelectedContexts.map(ctx=> ctx.getProperty("status"));
+          console.log("current status" + status);
+          
+    
+          if (status.includes("Approved")) {
+            MessageBox.error("You cannot approve  an already Approved file.");
+            return Promise.reject("Approval not allowed for already  Approved files");
+          }
             
               if(!aSelectedContexts || aSelectedContexts.length === 0) {
                  MessageToast.show("Please select at least one row")

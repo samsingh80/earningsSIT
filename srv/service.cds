@@ -8,9 +8,18 @@ service EarningUploadSrv {
   // @UI.DeleteHidden: {$edmJson:  {$Path: '/VisibilityConfig/isAdmin'}}
   // @UI.UpdateHidden: {$edmJson:  {$Path: '/VisibilityConfig/isAdmin'}}
 
-  @UI.CreateHidden: {$edmJson: {$Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isAdmin'}}
-  @UI.DeleteHidden: {$edmJson: {$Not: {$Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isAdmin'}}}
-  @UI.UpdateHidden: {$edmJson: {$Not: {$Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isAdmin'}}} 
+    // @UI.CreateHidden: {$edmJson: {$Or: [
+    //     {$Eq: [
+    //         {$Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isAdmin'},
+    //         true
+    //     ]},
+    //     {$Eq: [
+    //         {$Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isViewer'},
+    //         true
+    //     ]}
+    // ]}}
+  @UI.DeleteHidden: {$edmJson: { $Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isViewer'}}
+   @UI.CreateHidden: {$edmJson:{ $Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isViewer'}}
   @Capabilities.SearchRestrictions: { 
     Searchable: true
    }
@@ -19,9 +28,7 @@ service EarningUploadSrv {
     *,
     bank.name as bank_name
   }
-
   entity Banks            as projection on earning_upload.Banks;
-
   entity Quarters         as projection on earning_upload.Quarters
                              order by
                                code asc;
@@ -38,6 +45,7 @@ service EarningUploadSrv {
   action approveFiles(ids: array of  UUID) returns String;
   action rejectFiles(ids: array of UUID) returns String;
   entity FileStatusValues   as projection on earning_upload.FileStatusValues;
+  entity EarningsFileStatusValues   as projection on earning_upload.FileStatusValues;
 
 
 

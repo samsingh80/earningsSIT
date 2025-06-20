@@ -7,8 +7,17 @@ module.exports = cds.service.impl((srv) => {
   
   const {EarningFiles,VisibilityConfig} = srv.entities;
   srv.on("READ",VisibilityConfig, async (req) => {
+    let viewer;
+    if(!req.user.is("Workzone_EFDNA_GenAI_Earnings_Checker") && !req.user.is("Workzone_EFDNA_GenAI_Earnings_Maker")){
+       viewer = true;
+    }else{
+      viewer = false;
+    }
     req.reply({
       isAdmin: req.user.is("Workzone_EFDNA_GenAI_Earnings_Checker"),
+      isMaker: req.user.is("Workzone_EFDNA_GenAI_Earnings_Maker"),
+      isViewer: viewer
+      
     });
 
     // let currentUser = await next();

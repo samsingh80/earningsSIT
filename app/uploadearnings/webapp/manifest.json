@@ -152,7 +152,7 @@
                   "actions": {
                     "Approve": {
                       "press": "com.scb.uploadearnings.ext.controller.EarningListPageExtend.onApprove",
-                      "visible": true,
+                      "visible": "{/VisibilityConfig/isAdmin}",
                       "icon": "sap-icon://accept",
                       "enabled": true,
                       "requiresSelection": true,
