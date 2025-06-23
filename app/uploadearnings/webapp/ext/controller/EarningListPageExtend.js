@@ -51,7 +51,6 @@ sap.ui.define([
           const status = aSelectedContexts.map(ctx=> ctx.getProperty("status"));
           console.log("current status" + status);
           
-    
           if (status.includes("Approved")) {
             MessageBox.error("You cannot approve  an already Approved file.");
             return Promise.reject("Approval not allowed for already  Approved files");
@@ -69,17 +68,15 @@ sap.ui.define([
                       model: model,
                       parameterValues: [{name: "ids", value: aIDs}],    
                       invocationGroupig: "Isolated"
-                    } 
-                
+                    }                 
                 )
-
+                model.refresh();
                 MessageToast.show("Files approved Successfully");
-
               }catch(err){
                 console.error("Approval Failed", err);
                 MessageToast.show("Approval Failed");
               }
- 
+              await this.editFlow.refresh();
         },
         onReject: async function(oBindingContext, aSelectedContexts) {
             if(!aSelectedContexts || aSelectedContexts.length === 0) {
@@ -94,12 +91,9 @@ sap.ui.define([
                      model: model,
                      parameterValues: [{name: "ids", value: aIDs}],    
                      invocationGroupig: "Isolated"
-                   } 
-               
+                   }                
                )
-
                MessageToast.show("Files Rejected Successfully");
-
              }catch(err){
                console.error("Rejection Failed", err);
                MessageToast.show("Rejection Failed");

@@ -18,16 +18,19 @@ service EarningUploadSrv {
     //         true
     //     ]}
     // ]}}
-  @UI.DeleteHidden: {$edmJson: { $Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isViewer'}}
-   @UI.CreateHidden: {$edmJson:{ $Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isViewer'}}
+  
   @Capabilities.SearchRestrictions: { 
     Searchable: true
    }
   @Search.defaultSearchElement : ['bank_code','bank_name','fileName','createdBy','createdAt','quarter','status'] 
+  @UI.DeleteHidden: {$edmJson: { $Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/isViewer'}}
+  @UI.CreateHidden: {$edmJson: {  $Path: '/EarningUploadSrv.EntityContainer/VisibilityConfig/hideCreate'}}
   entity EarningFiles as projection on earning_upload.EarningFiles{
     *,
     bank.name as bank_name
   }
+  @UI.CreateHidden: false
+  @odata.draft.enabled
   entity Banks            as projection on earning_upload.Banks;
   entity Quarters         as projection on earning_upload.Quarters
                              order by

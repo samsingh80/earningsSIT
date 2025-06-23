@@ -95,6 +95,8 @@ status @title: 'Status'
   
 };
 
+
+
 annotate service.EarningFiles with @(UI.SelectionFields: [
   bank_code,
   year_code,
@@ -176,3 +178,16 @@ annotate service.EarningFiles with @(Common.SideEffects: {
   SourceProperties: [content],
   TargetEntities  : ['/EarningUploadSrv.EntityContainer/EarningFiles'],
 });
+
+annotate service.Banks with @UI.HeaderInfo: {
+  TypeName: 'Bank',
+  TypeNamePlural: 'Banks',
+  Title: {
+    $Type: 'UI.DataField',
+    Value: code
+  },
+  Description: {
+    $Type: 'UI.DataField',
+    Value: name
+  }
+};

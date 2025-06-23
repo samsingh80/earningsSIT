@@ -7,6 +7,7 @@ using {
 } from '@sap/cds/common';
 
 entity Banks : CodeList {
+  // key ID: UUID;
   key code : String(40);
 }
 
@@ -119,6 +120,7 @@ entity VisibilityConfig {
       isAdmin : Boolean;
       isMaker: Boolean;
       isViewer: Boolean;
+      hideCreate: Boolean;
 }
 @UI.LineItem: [{Value: code, Label: 'Status'}]
 @UI.SelectionFields: [{$value: code}]

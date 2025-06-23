@@ -8,15 +8,20 @@ module.exports = cds.service.impl((srv) => {
   const {EarningFiles,VisibilityConfig} = srv.entities;
   srv.on("READ",VisibilityConfig, async (req) => {
     let viewer;
-    if(!req.user.is("Workzone_EFDNA_GenAI_Earnings_Checker") && !req.user.is("Workzone_EFDNA_GenAI_Earnings_Maker")){
+
+    if(!req.user.is("Earning_Admin") && !req.user.is("Earning_Viewer")){
        viewer = true;
     }else{
       viewer = false;
     }
+   
+    
     req.reply({
-      isAdmin: req.user.is("Workzone_EFDNA_GenAI_Earnings_Checker"),
-      isMaker: req.user.is("Workzone_EFDNA_GenAI_Earnings_Maker"),
-      isViewer: viewer
+      isAdmin: req.user.is("Earning_Admin"),
+      isMaker: req.user.is("Earning_Viewer"),
+      isViewer: viewer,
+      hideCreate: !req.user.is("Earning_Viewer"),
+
       
     });
 
@@ -84,6 +89,33 @@ module.exports = cds.service.impl((srv) => {
       console.log("Media content fetched successfully for ID:", req.data.ID);
       return _formatResult(decodedMedia, mediaObj.mediaType);
     } else return next();
+  });
+
+  srv.before('READ', EarningFiles, async (req) => {
+    // Only restrict if user is a viewer
+    if(!req.user.is("Workzone_EFDNA_GenAI_Earnings_Checker") && !req.user.is("Workzone_EFDNA_GenAI_Earnings_Maker")) {
+      // Inject condition: only show Approved records
+      req.query.where('status =', 'Approved');
+    }
+  });
+
+  srv.before('DELETE', EarningFiles, async (req) => {
+
+    if (req.user.is("Workzone_EFDNA_GenAI_Earnings_Checker")) return;
+    const db = srv.transaction(req);
+
+    // Handle batch deletes (multi-selection)
+    const deleteIds = Array.isArray(req.data) ? req.data.map(d => d.ID) : [req.data.ID];
+
+    const files = await db.run(
+      SELECT.from(EarningFiles).where({ ID: { in: deleteIds } })
+    );
+
+    const approvedFiles = files.filter(file => file.status === 'Approved');
+
+    if (approvedFiles.length > 0) {
+      req.reject(400, 'You cannot delete files that are already Approved.');
+    }
   });
 
   // Helper function to convert Readable stream to Buffer

@@ -31,7 +31,9 @@
   },
   "devDependencies": {
     "@sap/ux-specification": "^1.108.12",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "@sap/cds-dk": "^7.9.5",
+    "mbt": "^1.2.29"
   },
   "scripts": {
     "start": "cds-serve",
@@ -41,7 +43,8 @@
     "watch-uploadearnings": "cds watch --open uploadearnings/webapp/index.html?sap-ui-xx-viewCache=false",
     "undeploy": "cf undeploy earning-upload --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-onboardbanks": "cds watch --open onboardbanks/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
@@ -51,7 +54,7 @@
           "users": {
             "alice": {
               "roles": [
-                "Workzone_EFDNA_GenAI_Earnings_Makersss"
+                "Workzone_EFDNA_GenAI_Earnings_Maker"
               ],
               "attr": {
                 "givenName": "Alice",
@@ -89,6 +92,7 @@
   },
   "lcap": true,
   "sapux": [
-    "app/uploadearnings"
+    "app/uploadearnings",
+    "app/onboardbanks"
   ]
 }
