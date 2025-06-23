@@ -7,8 +7,7 @@ using {
 } from '@sap/cds/common';
 
 entity Banks : CodeList {
-  // key ID: UUID;
-  key code : String(40);
+   key code : String(40);
 }
 
 entity Years : CodeList {

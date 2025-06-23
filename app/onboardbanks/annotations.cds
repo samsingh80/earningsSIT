@@ -3,7 +3,14 @@ annotate service.Banks with @(
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
         Data : [
-            
+            {
+                $Type : 'UI.DataField',
+                Value : descr,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : name,
+            },
         ],
     },
     UI.Facets : [
@@ -24,10 +31,7 @@ annotate service.Banks with @(
             $Type : 'UI.DataField',
             Value : name,
         },
-        {
-            $Type : 'UI.DataField',
-            Value : descr,
-        },
+
     ],
 );
 

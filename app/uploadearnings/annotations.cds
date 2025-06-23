@@ -1,4 +1,4 @@
-using {EarningUploadSrv as service} from '../srv/service.cds';
+using {EarningUploadSrv as service} from '../../srv/service';
 
 annotate service.Banks with {
   code @Common.Text: {
@@ -179,15 +179,4 @@ annotate service.EarningFiles with @(Common.SideEffects: {
   TargetEntities  : ['/EarningUploadSrv.EntityContainer/EarningFiles'],
 });
 
-annotate service.Banks with @UI.HeaderInfo: {
-  TypeName: 'Bank',
-  TypeNamePlural: 'Banks',
-  Title: {
-    $Type: 'UI.DataField',
-    Value: code
-  },
-  Description: {
-    $Type: 'UI.DataField',
-    Value: name
-  }
-};
+
