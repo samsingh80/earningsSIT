@@ -1,16 +1,17 @@
-using EarningUploadSrv as service from '../../srv/service';
+using configSrv as service from '../../srv/bank';
 annotate service.Banks with @(
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
         Data : [
-            {
-                $Type : 'UI.DataField',
-                Value : descr,
-            },
-            {
+           {
                 $Type : 'UI.DataField',
                 Value : name,
             },
+            {
+                $Type : 'UI.DataField',
+                Value : descr,
+            }
+
         ],
     },
     UI.Facets : [
@@ -35,3 +36,13 @@ annotate service.Banks with @(
     ],
 );
 
+
+annotate service.Banks with @(UI.HeaderInfo: {
+    Title         : {
+        $Type: 'UI.DataField',
+        Value: code,
+    },
+    TypeName      : 'Banks',
+    TypeNamePlural: 'Banks',
+    ![@UI.Hidden]: {$edmJson: {$Not: {$Path: 'IsActiveEntity'}}}
+});

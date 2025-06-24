@@ -24,6 +24,8 @@ modules:
   path: gen/db
   requires:
   - name: earning-upload-db
+    properties:
+      TARGET_CONTAINER: ~{hdi-container-name}
   parameters:
     buildpack: nodejs_buildpack
 - name: earning-upload-destination-content
@@ -100,6 +102,8 @@ resources:
   parameters:
     service: hana
     service-plan: hdi-shared
+  properties:
+    hdi-container-name: ${service-name}
 - name: earning-upload-auth
   type: org.cloudfoundry.managed-service
   parameters:
@@ -142,6 +146,24 @@ resources:
     service-plan: lite
   requires:
   - name: srv-api
+- name: cross-container-service-1
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: hdi_earningsai
+  properties:
+    the-service-name: ${service-name}
+- name: cross-container-service-2
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: earning-upload-db
+  properties:
+    the-service-name: ${service-name}
+- name: cross-container-service-3
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: earning-upload-db
+  properties:
+    the-service-name: ${service-name}
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

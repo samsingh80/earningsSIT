@@ -17,7 +17,7 @@
     },
     "dataSources": {
       "mainService": {
-        "uri": "/odata/v4/earning-upload-srv/",
+        "uri": "/odata/v4/config-srv/",
         "type": "OData",
         "settings": {
           "annotations": [],

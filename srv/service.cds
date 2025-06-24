@@ -29,8 +29,7 @@ service EarningUploadSrv {
     *,
     bank.name as bank_name
   }
-  @UI.CreateHidden: false
-  @odata.draft.enabled
+ 
   entity Banks            as projection on earning_upload.Banks;
   entity Quarters         as projection on earning_upload.Quarters
                              order by
@@ -53,3 +52,5 @@ service EarningUploadSrv {
 
 
 }
+
+
