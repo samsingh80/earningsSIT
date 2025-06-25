@@ -91,6 +91,17 @@ module.exports = cds.service.impl((srv) => {
     } else return next();
   });
 
+  //  srv.before('CREATE', EarningFiles, async (req) => {
+  //   const { bank_code, year_code } = req.data
+  //   if (!bank_code || !year_code) return // Skip if incomplete
+  //   const existing = await SELECT.from(EarningFiles)
+  //     .where({ bank_code, year_code })
+
+  //   if (existing.length > 0) {
+  //     return req.error(400, `Standard Report already exists for bank '${bank_code}' and year '${year_code}'.`)
+  //   }
+  // });
+
   srv.before('READ', EarningFiles, async (req) => {
     // Only restrict if user is a viewer
     if(!req.user.is("Workzone_EFDNA_GenAI_Earnings_Checker") && !req.user.is("Workzone_EFDNA_GenAI_Earnings_Maker")) {

@@ -28,9 +28,9 @@ entity Quarters : CodeList {
 
  
 entity EarningFiles : cuid, managed {
- key bank      : Association to Banks;
- key year      : Association to Years default '2025';
- key quarter   : Association to Quarters;
+  bank      : Association to Banks;
+  year      : Association to Years default '2025';
+  quarter   : Association to Quarters;
   
 
   @Core.MediaType  : mediaType
@@ -77,10 +77,9 @@ annotate EarningFiles with {
 };
 
   @UI.LineItem: [
-    { Value: fileName, Label: 'File Name' },
-    { Value: ID, Label: 'ID' },
-    { Value: status, Label: 'Status' },
+      {$Type: 'UI.DataFieldWithUrl',Label: 'Download',Value: fileName,Url: url},  
     { Value: mediaType, Label: 'Media Type' },
+     { Value: status, Label: 'Status' },
     { Value: createdBy, Label: 'Uploaded By' }
   ]
   @UI.SelectionFields : [
