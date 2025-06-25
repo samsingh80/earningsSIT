@@ -6,10 +6,11 @@ using {
   sap.common.CodeList
 } from '@sap/cds/common';
 
+
 entity Banks : CodeList {
    key code : String(40);
 }
-
+ 
 entity Years : CodeList {
   key code : String(4);
 }
@@ -27,9 +28,9 @@ entity Quarters : CodeList {
 
  
 entity EarningFiles : cuid, managed {
-  bank      : Association to Banks;
-  year      : Association to Years default '2025';
-  quarter   : Association to Quarters;
+ key bank      : Association to Banks;
+ key year      : Association to Years default '2025';
+ key quarter   : Association to Quarters;
   
 
   @Core.MediaType  : mediaType
@@ -75,6 +76,17 @@ annotate EarningFiles with {
 //  createdBy @UI.Hidden;
 };
 
+  @UI.LineItem: [
+    { Value: fileName, Label: 'File Name' },
+    { Value: ID, Label: 'ID' },
+    { Value: status, Label: 'Status' },
+    { Value: mediaType, Label: 'Media Type' },
+    { Value: createdBy, Label: 'Uploaded By' }
+  ]
+  @UI.SelectionFields : [
+        status,
+        createdBy
+    ]
 entity EmbeddingFiles @(odata.stream)  :  managed {
 
   key ID: String;
@@ -96,9 +108,12 @@ entity EmbeddingFiles @(odata.stream)  :  managed {
   ]
 }
 @Common.ValueListWithFixedValues: true
-// @Common.FilterDefaultValue: 'Submitted'
+  // @Common.FilterDefaultValue: 'Submitted'
+
   status   : String(20);
-    comments  : String;
+  comments  : String;
+
+
 
 }
 action generateEmbedding() returns String;
@@ -132,4 +147,5 @@ entity FileStatusValues {
 entity EarningsFileStatusValues {
   key code : String(20);
 };
+
 

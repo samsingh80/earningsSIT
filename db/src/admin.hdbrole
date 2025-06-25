@@ -1,0 +1,10 @@
+{
+    "role": {
+      "name": "admin",
+      "schema_privileges": [{
+        "privileges": [
+          "SELECT"
+        ]
+      }]
+    }
+  }

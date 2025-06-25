@@ -4,6 +4,4 @@ service configSrv {
   @odata.draft.enabled
   entity Banks as projection on earning_upload.Banks  ;
 
-
-
 }

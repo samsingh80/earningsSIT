@@ -26,6 +26,11 @@ modules:
   - name: earning-upload-db
     properties:
       TARGET_CONTAINER: ~{hdi-container-name}
+  - name: cross-container-service-8
+    group: SERVICE_REPLACEMENTS
+    properties:
+      key: ServiceName_1
+      service: ~{the-service-name}
   parameters:
     buildpack: nodejs_buildpack
 - name: earning-upload-destination-content
@@ -162,6 +167,36 @@ resources:
   type: org.cloudfoundry.existing-service
   parameters:
     service-name: earning-upload-db
+  properties:
+    the-service-name: ${service-name}
+- name: cross-container-service-4
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: earning-upload-db
+  properties:
+    the-service-name: ${service-name}
+- name: cross-container-service-5
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: ""
+  properties:
+    the-service-name: ${service-name}
+- name: cross-container-service-6
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: earningsSIT-hdiearning-upload-db-deployer-ws-cn6bp
+  properties:
+    the-service-name: ${service-name}
+- name: cross-container-service-7
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: hdi_earningsai
+  properties:
+    the-service-name: ${service-name}
+- name: cross-container-service-8
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: Treasury-db
   properties:
     the-service-name: ${service-name}
 parameters:

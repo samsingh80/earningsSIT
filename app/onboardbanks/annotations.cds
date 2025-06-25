@@ -27,13 +27,21 @@ annotate service.Banks with @(
             $Type : 'UI.DataField',
             Label : 'code',
             Value : code,
+             ![@HTML5.CssDefaults]: {width: 'auto', },
         },
         {
             $Type : 'UI.DataField',
             Value : name,
+             ![@HTML5.CssDefaults]: {width: 'auto', },
         },
+          {
+            $Type : 'UI.DataField',
+            Value : descr,
+             ![@HTML5.CssDefaults]: {width: 'auto', },
+        }
 
     ],
+    
 );
 
 
@@ -44,5 +52,7 @@ annotate service.Banks with @(UI.HeaderInfo: {
     },
     TypeName      : 'Banks',
     TypeNamePlural: 'Banks',
-    ![@UI.Hidden]: {$edmJson: {$Not: {$Path: 'IsActiveEntity'}}}
+    // ![@UI.Hidden]: {$edmJson: {$Not: {$Path: 'IsActiveEntity'}}}
 });
+
+
